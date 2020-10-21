@@ -1,6 +1,19 @@
-/vendor
-/.idea
-Homestead.json
-Homestead.yaml
+### Laravel ###
+/vendor/
+storage/*.key
 .env
+Homestead.yaml
+Homestead.json
 .phpunit.result.cache
+
+# Laravel IDE helper
+*.meta.*
+_ide_*
+
+### CodeSniffer ###
+/vendor/*
+/wpcs/*
+
+### PhpStorm ###
+/.idea
+
