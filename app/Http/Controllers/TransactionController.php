@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Merchant;
 use App\Models\User;
+use Illuminate\Http\Request;
 
 class TransactionController extends Controller
 {
-    public function store()
+    public function store(Request $request)
     {
-        dd('dadas', config('auth'), auth()->user());
+        $this->validate($request, [
+            'value' => 'required|numeric',
+            'payer' => 'required|exists:users,id',
+//            'payee' => 'required|exists:', //Recebedor
+        ]);
 
-        dd(Merchant::all()->toArray());
-//        User::query()->
+        dd(User::factory()->make());
     }
 }

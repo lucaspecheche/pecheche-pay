@@ -10,6 +10,7 @@ class CreateMerchantTable extends Migration
     {
         Schema::create('merchants', function (Blueprint $table) {
             $table->id();
+            $table->unsignedInteger('uid')->unique();
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
             $table->string('cpf', 11)->unique();
