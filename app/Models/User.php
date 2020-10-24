@@ -9,11 +9,6 @@ class User extends Model
 {
     use HasFactory;
 
-//    protected static function booted()
-//    {
-//        static::addGlobalScope(new UserScope);
-//    }
-
     protected $fillable = [
         'first_name',
         'last_name',
@@ -25,4 +20,16 @@ class User extends Model
     protected $hidden = [
         'password'
     ];
+
+    public function customer()
+    {
+        return $this->morphOne(Customer::class, 'customerable');
+    }
+
+    public function findByUid(int $uid): ?UserInterface
+    {
+        dump('Passou User');
+        return parent::findByUid($uid);
+        return self::query()->firstWhere('uid', '=', $uid);
+    }
 }
