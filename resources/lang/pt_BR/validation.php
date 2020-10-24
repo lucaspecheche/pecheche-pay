@@ -105,6 +105,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
+    'invalidData' => 'Dados Inválidos.',
     'custom' => [
         'attribute-name' => [
             'rule-name' => 'custom-message',

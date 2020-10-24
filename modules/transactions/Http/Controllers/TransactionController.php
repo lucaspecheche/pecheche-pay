@@ -3,13 +3,20 @@
 namespace Transactions\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Customers\Models\Customer;
-use Illuminate\Http\Request;
-use Wallets\Models\Wallet;
+use App\Http\Request;
+use Transactions\Contracts\TransactionServiceInterface;
+use Transactions\Helpers\Data\NewTransactionData;
 
 class TransactionController extends Controller
 {
-    public function store(Request $request)
+    private $transactionService;
+
+    public function __construct(TransactionServiceInterface $transactionService)
+    {
+        $this->transactionService = $transactionService;
+    }
+
+    public function store(Request $request, NewTransactionData $data)
     {
         $this->validate($request, [
             'value' => 'required|numeric',
@@ -17,6 +24,10 @@ class TransactionController extends Controller
             'payee' => 'required|numeric|is_customer'
         ]);
 
-        dd($request->toArray());
+        $data->setAll($request->all());
+
+        $this->transactionService->new($data);
+
+        dd('Fim Controller');
     }
 }

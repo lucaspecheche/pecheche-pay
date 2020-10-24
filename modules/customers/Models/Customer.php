@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Wallets\Models\Wallet;
 
+/**
+ * @property Wallet wallet
+ */
 class Customer extends Model
 {
     use HasFactory;

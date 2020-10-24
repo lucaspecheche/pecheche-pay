@@ -3,9 +3,16 @@
 namespace Transactions\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Transactions\Contracts\TransactionServiceInterface;
+use Transactions\Services\TransactionService;
 
 class TransactionProvider extends ServiceProvider
 {
+    public function register(): void
+    {
+        $this->app->bind(TransactionServiceInterface::class, TransactionService::class);
+    }
+
     public function boot(): void
     {
         $this->registerApiRoutes();

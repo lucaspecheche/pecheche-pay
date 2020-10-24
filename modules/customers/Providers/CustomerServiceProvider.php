@@ -2,11 +2,18 @@
 
 namespace Customers\Providers;
 
+use Customers\Contracts\CustomerRepositoryInterface;
+use Customers\Repositories\CustomerRepository;
 use Customers\Rules\CustomerIdentifier;
 use Illuminate\Support\ServiceProvider;
 
 class CustomerServiceProvider extends ServiceProvider
 {
+    public function register(): void
+    {
+        $this->app->bind(CustomerRepositoryInterface::class, CustomerRepository::class);
+    }
+
     public function boot(): void
     {
         $this->registerMigrations();
