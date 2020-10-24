@@ -1,9 +1,9 @@
 <?php
 
-namespace Database\Seeders;
+namespace Customers\Database\Seeders;
 
-use App\Models\Customer;
-use App\Models\Merchant;
+use Customers\Models\Customer;
+use Customers\Models\Merchant;
 use Illuminate\Database\Seeder;
 
 class MerchantSeeder extends Seeder

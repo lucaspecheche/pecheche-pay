@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Rules;
+namespace Customers\Rules;
 
-use App\Models\Customer;
+use Customers\Models\Customer;
 use Illuminate\Validation\Rule;
 
 class CustomerIdentifier extends Rule

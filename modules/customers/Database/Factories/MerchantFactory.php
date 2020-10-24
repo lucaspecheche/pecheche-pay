@@ -1,8 +1,8 @@
 <?php
 
-namespace Database\Factories;
+namespace Customers\Database\Factories;
 
-use App\Models\Merchant;
+use Customers\Models\Merchant;
 
 class MerchantFactory extends UserFactory
 {

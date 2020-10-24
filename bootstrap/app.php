@@ -39,7 +39,6 @@ $app->configure('app');
 
 //Register Providers
 $app->register(App\Providers\AppServiceProvider::class);
-$app->register(App\Providers\ModuleServiceProvider::class);
 
 //Register Routes
 $app->router->group([], function ($router) {

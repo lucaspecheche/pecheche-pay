@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Models;
+namespace Customers\Models;
 
+use Customers\Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
-class Merchant extends UserAbstract
+class User extends Model
 {
     use HasFactory;
 
@@ -21,18 +23,13 @@ class Merchant extends UserAbstract
         'password'
     ];
 
-    public function customer()
+    public function customer(): MorphOne
     {
         return $this->morphOne(Customer::class, 'customerable');
     }
 
-    public function isMerchant()
+    protected static function newFactory(): UserFactory
     {
-        return true;
-    }
-
-    public function findByUid(int $uid): ?UserInterface
-    {
-        return self::query()->firstWhere('uid', '=', $uid);
+        return UserFactory::new();
     }
 }
