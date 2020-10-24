@@ -7,8 +7,8 @@ use Wallets\Contracts\WalletServiceInterface;
 
 class WalletService implements WalletServiceInterface
 {
-    public function hasBalanceAvailable(Customer $customer, float $value): bool
+    public function hasAvailableBalance(Customer $customer, float $value): bool
     {
-        dd($customer->wallet);
+        return $customer->wallet->getAvailableBalance() >= $value;
     }
 }

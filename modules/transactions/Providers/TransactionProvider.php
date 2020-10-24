@@ -17,6 +17,12 @@ class TransactionProvider extends ServiceProvider
     {
         $this->registerApiRoutes();
         $this->registerMigrations();
+        $this->registerTranslations();
+    }
+
+    public function registerTranslations(): void
+    {
+        $this->loadTranslationsFrom(__DIR__ . '/../Translations', 'transaction');
     }
 
     public function registerMigrations(): void

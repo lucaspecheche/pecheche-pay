@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Wallets\Database\Factories\WalletFactory;
 
+/**
+ * @property float balance
+ * @property float processing_balance
+ */
 class Wallet extends Model
 {
     use HasFactory;
@@ -25,5 +29,10 @@ class Wallet extends Model
     protected static function newFactory(): WalletFactory
     {
         return WalletFactory::new();
+    }
+
+    public function getAvailableBalance(): float
+    {
+        return $this->balance - $this->processing_balance;
     }
 }

@@ -4,6 +4,7 @@ namespace Transactions\Services;
 
 use Customers\Contracts\CustomerRepositoryInterface;
 use Transactions\Contracts\TransactionServiceInterface as ServiceInterface;
+use Transactions\Exceptions\TransactionExceptions;
 use Transactions\Helpers\Data\NewTransactionData;
 use Wallets\Contracts\WalletServiceInterface;
 
@@ -22,10 +23,10 @@ class TransactionService implements ServiceInterface
 
     public function new(NewTransactionData $data)
     {
-        dd($data->getPayer());
+        if ($this->walletService->hasAvailableBalance($data->getPayer(), $data->getValue())) {
+            dd('Dispatch');
+        }
 
-
-        dd($this->walletService->hasBalanceAvailable());
-        //Saldo available
+        throw TransactionExceptions::balanceUnavailable();
     }
 }

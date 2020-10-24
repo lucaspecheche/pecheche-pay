@@ -6,5 +6,5 @@ use Customers\Models\Customer;
 
 interface WalletServiceInterface
 {
-    public function hasBalanceAvailable(Customer $customer, float $value): bool;
+    public function hasAvailableBalance(Customer $customer, float $value): bool;
 }
