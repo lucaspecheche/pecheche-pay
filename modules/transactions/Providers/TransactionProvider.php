@@ -4,7 +4,7 @@ namespace Transactions\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
-class TransactionServiceProvider extends ServiceProvider
+class TransactionProvider extends ServiceProvider
 {
     public function boot(): void
     {

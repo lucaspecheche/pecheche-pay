@@ -19,7 +19,8 @@
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/",
             "Transactions\\": "modules/transactions",
-            "Customers\\": "modules/customers/"
+            "Customers\\": "modules/customers/",
+            "Wallets\\": "modules/wallets/"
         }
     },
     "autoload-dev": {

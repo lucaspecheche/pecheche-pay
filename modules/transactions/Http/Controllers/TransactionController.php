@@ -3,7 +3,9 @@
 namespace Transactions\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Customers\Models\Customer;
 use Illuminate\Http\Request;
+use Wallets\Models\Wallet;
 
 class TransactionController extends Controller
 {
