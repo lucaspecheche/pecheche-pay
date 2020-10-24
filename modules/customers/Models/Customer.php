@@ -10,6 +10,7 @@ use Wallets\Models\Wallet;
 
 /**
  * @property Wallet wallet
+ * @property int id
  */
 class Customer extends Model
 {

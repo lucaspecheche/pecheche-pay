@@ -1,13 +1,13 @@
 <?php
 
-namespace Transactions\Exceptions;
+namespace Transactions\Transfer\Exceptions;
 
 use App\Exceptions\BuildException;
 use Illuminate\Http\Response;
 
-class TransactionExceptions extends BuildException
+class TransferExceptions extends BuildException
 {
-    public static function balanceUnavailable(): TransactionExceptions
+    public static function balanceUnavailable(): TransferExceptions
     {
         return (new self)
             ->setShortMessage(__FUNCTION__)

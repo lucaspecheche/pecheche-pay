@@ -3,14 +3,17 @@
 namespace Transactions\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Transactions\Contracts\TransactionServiceInterface;
-use Transactions\Services\TransactionService;
+use Transactions\Contracts\TransactionRepositoryInterface;
+use Transactions\Repositories\TransactionRepository;
+use Transactions\Transfer\Contracts\TransferServiceInterface;
+use Transactions\Transfer\Services\TransferService;
 
 class TransactionProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->app->bind(TransactionServiceInterface::class, TransactionService::class);
+        $this->app->bind(TransferServiceInterface::class, TransferService::class);
+        $this->app->bind(TransactionRepositoryInterface::class, TransactionRepository::class);
     }
 
     public function boot(): void
@@ -32,7 +35,7 @@ class TransactionProvider extends ServiceProvider
 
     public function registerApiRoutes(): void
     {
-        $this->app->router->group(['prefix' => 'transactions'], static function ($router) {
+        $this->app->router->group(['prefix' => 'v1/transactions'], static function ($router) {
             require_once __DIR__ . '/../Routes/api.php';
         });
     }

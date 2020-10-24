@@ -4,19 +4,19 @@ namespace Transactions\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Request;
-use Transactions\Contracts\TransactionServiceInterface;
-use Transactions\Helpers\Data\NewTransactionData;
+use Transactions\Transfer\Contracts\TransferServiceInterface;
+use Transactions\Transfer\Helpers\TransferMapper;
 
 class TransactionController extends Controller
 {
-    private $transactionService;
+    private $transferService;
 
-    public function __construct(TransactionServiceInterface $transactionService)
+    public function __construct(TransferServiceInterface $transferService)
     {
-        $this->transactionService = $transactionService;
+        $this->transferService = $transferService;
     }
 
-    public function store(Request $request, NewTransactionData $data)
+    public function transfer(Request $request, TransferMapper $data)
     {
         $this->validate($request, [
             'value' => 'required|numeric',
@@ -26,7 +26,7 @@ class TransactionController extends Controller
 
         $data->setAll($request->all());
 
-        $this->transactionService->new($data);
+        $this->transferService->new($data);
 
         dd('Fim Controller');
     }
