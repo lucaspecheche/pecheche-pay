@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Transactions\Providers;
+namespace Transactions\Providers;
 
 use Illuminate\Support\ServiceProvider;
 

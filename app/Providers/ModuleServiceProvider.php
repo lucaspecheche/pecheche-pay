@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Customers\Providers\CustomerServiceProvider;
 use Illuminate\Support\ServiceProvider;
-use Modules\Transactions\Providers\TransactionServiceProvider;
+use Transactions\Providers\TransactionServiceProvider;
 
 class ModuleServiceProvider extends ServiceProvider
 {
