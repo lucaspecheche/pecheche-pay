@@ -7,17 +7,17 @@ use Illuminate\Validation\Rule;
 
 class CustomerIdentifier extends Rule
 {
-    public function validate($attribute, $value, $params): bool
+    public function validate($attribute, $value, $models): bool
     {
         $customer = $this->getCustomerByValue($value);
 
-        if (empty($params) || !$customer) {
+        if (empty($models) || !$customer) {
             return (bool) $customer;
         }
 
         if($model = $customer->getType()) {
             return class_exists($model)
-                ? $this->isSameModel($model, $params)
+                ? $this->isSameModel($model, $models)
                 : false;
         }
 
