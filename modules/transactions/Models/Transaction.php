@@ -32,7 +32,9 @@ class Transaction extends Model
         'payer_id',
         'payee_id',
         'created_at',
-        'updated_at'
+        'updated_at',
+        'payer',
+        'payee'
     ];
 
     public function payer(): BelongsTo

@@ -39,11 +39,13 @@ class TransferService implements ServiceInterface, TransactionInterface
 
     public function new(TransferMapper $data): Transaction
     {
-        $this->hasBalance($data->getPayer(), $data->getValue());
+        $this->hasAvailableBalance($data->getPayer(), $data->getValue());
 
         $transaction = $this->transactionRepository->create($data->mapToTransaction());
 
-        TransferJob::dispatchNow($transaction);
+        $this->useAsyncTransaction()
+            ? TransferJob::dispatch($transaction)
+            : TransferJob::dispatchNow($transaction);
 
         return $transaction;
     }
@@ -104,7 +106,7 @@ class TransferService implements ServiceInterface, TransactionInterface
 
     private function validate(): TransferService
     {
-        $this->hasBalance(
+        $this->hasAvailableBalance(
             $this->transaction->payer,
             $this->transaction->value
         );
@@ -127,11 +129,16 @@ class TransferService implements ServiceInterface, TransactionInterface
         return $this;
     }
 
-    private function hasBalance(Customer $customer, float $value): TransferService
+    private function hasAvailableBalance(Customer $customer, float $value): TransferService
     {
         $hasBalance = $this->walletService->hasAvailableBalance($customer, $value);
         throw_unless($hasBalance, TransferExceptions::insufficientFunds());
 
         return $this;
+    }
+
+    private function useAsyncTransaction(): bool
+    {
+        return env('ASYNC_TRANSACTION', false);
     }
 }
