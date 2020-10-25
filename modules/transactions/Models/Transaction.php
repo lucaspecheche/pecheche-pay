@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Transactions\Database\Factories\TransactionFactory;
 
+/**
+ * @property Customer payer
+ * @property Customer payee
+ * @property float value
+ */
 class Transaction extends Model
 {
     use HasFactory;
@@ -18,6 +23,14 @@ class Transaction extends Model
         'type',
         'payer_id',
         'payee_id'
+    ];
+
+    protected $hidden = [
+        'type',
+        'payer_id',
+        'payee_id',
+        'created_at',
+        'updated_at'
     ];
 
     public function payer(): BelongsTo

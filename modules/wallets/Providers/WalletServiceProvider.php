@@ -16,6 +16,12 @@ class WalletServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->registerMigrations();
+        $this->registerTranslations();
+    }
+
+    public function registerTranslations(): void
+    {
+        $this->loadTranslationsFrom(__DIR__ . '/../Translations', 'wallet');
     }
 
     public function registerMigrations(): void

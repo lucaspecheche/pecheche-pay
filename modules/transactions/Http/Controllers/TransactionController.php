@@ -4,6 +4,7 @@ namespace Transactions\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Request;
+use Illuminate\Http\Response;
 use Transactions\Transfer\Contracts\TransferServiceInterface;
 use Transactions\Transfer\Helpers\TransferMapper;
 
@@ -24,10 +25,12 @@ class TransactionController extends Controller
             'payee' => 'required|numeric|is_customer'
         ]);
 
-        $data->setAll($request->all());
+        $transaction = $this->transferService->new($data->setAll($request->all()));
 
-        $this->transferService->new($data);
-
-        dd('Fim Controller');
+        return $this->response(
+            trans('transaction::messages.transfer.created'),
+            $transaction,
+            Response::HTTP_CREATED
+        );
     }
 }

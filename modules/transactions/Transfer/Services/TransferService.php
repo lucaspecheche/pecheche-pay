@@ -3,6 +3,7 @@
 namespace Transactions\Transfer\Services;
 
 use Customers\Contracts\CustomerRepositoryInterface;
+use Customers\Models\Customer;
 use Transactions\Contracts\TransactionRepositoryInterface;
 use Transactions\Contracts\TransactionServiceInterface as TransactionInterface;
 use Transactions\Models\Transaction;
@@ -28,20 +29,37 @@ class TransferService implements ServiceInterface, TransactionInterface
         $this->transactionRepository = $transactionRepository;
     }
 
-    public function new(TransferMapper $data)
+    public function new(TransferMapper $data): Transaction
     {
-        if ($this->walletService->hasAvailableBalance($data->getPayer(), $data->getValue())) {
-            $transaction = $this->transactionRepository->create($data->mapToTransaction());
-            $this->submit($transaction);
+        $this->hasBalanceOrBreak($data->getPayer(), $data->getValue());
 
-            return $transaction;
-        }
+        $transaction = Transaction::first();//$this->transactionRepository->create($data->mapToTransaction());
 
-        throw TransferExceptions::balanceUnavailable();
+        TransferJob::dispatchNow($transaction);
+
+        return $transaction;
     }
 
     public function submit(Transaction $transaction)
     {
-        TransferJob::dispatch($transaction);
+        $this->debit($transaction);
+
+        dd($transaction);
+    }
+
+    private function debit(Transaction $transaction): void
+    {
+        $payer = $transaction->payer;
+        $value = $transaction->value;
+
+        $this->hasBalanceOrBreak($payer, $value);
+
+        $this->walletService->debit($payer, $value);
+    }
+
+    private function hasBalanceOrBreak(Customer $customer, float $value): void
+    {
+        $hasBalance = $this->walletService->hasAvailableBalance($customer, $value);
+        throw_unless($hasBalance, TransferExceptions::insufficientFunds());
     }
 }

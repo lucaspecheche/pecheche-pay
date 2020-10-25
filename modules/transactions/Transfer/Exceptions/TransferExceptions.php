@@ -7,11 +7,11 @@ use Illuminate\Http\Response;
 
 class TransferExceptions extends BuildException
 {
-    public static function balanceUnavailable(): TransferExceptions
+    public static function insufficientFunds(): TransferExceptions
     {
         return (new self)
             ->setShortMessage(__FUNCTION__)
-            ->setMessage(trans('transaction::exceptions.balanceUnavailable'))
+            ->setMessage(trans('transaction::exceptions.insufficientFunds'))
             ->setHttpCode(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 }

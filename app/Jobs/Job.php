@@ -10,6 +10,4 @@ use Illuminate\Queue\SerializesModels;
 abstract class Job implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels, Dispatchable;
-
-    abstract public function handle(): void;
 }

@@ -31,8 +31,8 @@ class Wallet extends Model
         return WalletFactory::new();
     }
 
-    public function getAvailableBalance(): float
+    public function getBalance(): float
     {
-        return $this->balance - $this->processing_balance;
+        return $this->balance;
     }
 }
