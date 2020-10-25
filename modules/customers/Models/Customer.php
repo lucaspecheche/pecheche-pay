@@ -3,6 +3,7 @@
 namespace Customers\Models;
 
 use Customers\Database\Factories\CustomerFactory;
+use Customers\Models\Model as CustomerModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -11,6 +12,7 @@ use Wallets\Models\Wallet;
 /**
  * @property Wallet wallet
  * @property int id
+ * @property CustomerModel customerable
  */
 class Customer extends Model
 {

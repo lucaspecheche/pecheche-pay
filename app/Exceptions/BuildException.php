@@ -23,6 +23,12 @@ class BuildException extends Exception
         return $this;
     }
 
+    public function setDescription(string $description): BuildException
+    {
+        $this->description = $description;
+        return $this;
+    }
+
     public function setShortMessage(string $shortMessage): BuildException
     {
         $this->shortMessage = $shortMessage;

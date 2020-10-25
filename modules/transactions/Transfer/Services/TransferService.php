@@ -10,6 +10,7 @@ use Transactions\Contracts\TransactionRepositoryInterface;
 use Transactions\Contracts\TransactionServiceInterface as TransactionInterface;
 use Transactions\Models\Transaction;
 use Transactions\Transfer\Contracts\TransferServiceInterface as ServiceInterface;
+use Transactions\Transfer\Events\TransferCompleted;
 use Transactions\Transfer\Exceptions\TransferExceptions;
 use Transactions\Transfer\Helpers\TransferMapper;
 use Transactions\Transfer\Jobs\TransferJob;
@@ -44,7 +45,7 @@ class TransferService implements ServiceInterface, TransactionInterface
         $transaction = $this->transactionRepository->create($data->mapToTransaction());
 
         $this->useAsyncTransaction()
-            ? TransferJob::dispatch($transaction)
+            ? dispatch(new TransferJob($transaction))
             : TransferJob::dispatchNow($transaction);
 
         return $transaction;
@@ -126,6 +127,8 @@ class TransferService implements ServiceInterface, TransactionInterface
     protected function success(): TransferService
     {
         $this->transaction->updateStatus(Status::COMPLETED);
+        TransferCompleted::dispatch($this->transaction);
+
         return $this;
     }
 

@@ -4,7 +4,6 @@ namespace Customers\Models;
 
 use Customers\Database\Factories\MerchantFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class Merchant extends Model

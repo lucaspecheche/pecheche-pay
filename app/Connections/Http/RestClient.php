@@ -21,6 +21,8 @@ abstract class RestClient
             return RestResponse::success($response);
         } catch (BadResponseException $exception) {
             return RestResponse::failure($exception);
+        } catch (\Exception $exception) {
+            throw ConnectionExceptions::error($exception);
         }
     }
 

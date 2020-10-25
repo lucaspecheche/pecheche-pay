@@ -11,6 +11,7 @@ class TransferJob extends Job
 {
     private $transaction;
 
+    public $tries = 2;
     public $queue = Types::TRANSFER;
 
     public function __construct(Transaction $transaction)
@@ -20,7 +21,6 @@ class TransferJob extends Job
 
     public function handle(TransferServiceInterface $transferService): void
     {
-        // TODO: Colocar try Catch
         $transferService->submit($this->transaction);
     }
 }

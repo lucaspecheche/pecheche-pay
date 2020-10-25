@@ -29,11 +29,6 @@ class TransferMapper
         return $this;
     }
 
-    public function isValid(): bool
-    {
-        return $this->getPayer() && $this->getPayee() && $this->getValue();
-    }
-
     public function getPayer(): Customer
     {
         return $this->payer;
@@ -47,13 +42,6 @@ class TransferMapper
     public function getValue(): float
     {
         return $this->value;
-    }
-
-    public function toArray()
-    {
-        return [
-
-        ];
     }
 
     public function mapToTransaction(): array

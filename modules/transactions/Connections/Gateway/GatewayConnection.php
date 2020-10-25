@@ -10,7 +10,7 @@ class GatewayConnection
 
     private const AUTHORIZATION_KEY = 'Autorizado';
 
-    public function __construct(GatewayClient $gatewayClient)
+    public function __construct(GatewayClientInterface $gatewayClient)
     {
         $this->gatewayClient = $gatewayClient;
     }
@@ -18,7 +18,7 @@ class GatewayConnection
     public function transferIsAuthorized(Transaction $transaction): bool
     {
         $response = $this->gatewayClient->post(GatewayRoutes::authorizeTransfer(), $transaction->toArray());
-        return $response->isSuccess() && $response->get('message');
+        return $response->isSuccess() && $response->get('message') === self::AUTHORIZATION_KEY;
 
     }
 }
