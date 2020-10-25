@@ -14,7 +14,7 @@ class CustomerFactory extends Factory
 
     public function definition(): array
     {
-        return [];
+        return $this->mapper(User::factory()->create());
     }
 
     public function withUser(): CustomerFactory
@@ -29,11 +29,18 @@ class CustomerFactory extends Factory
 
     private function withType(Model $model): CustomerFactory
     {
-        return $this->state(function(array $attributes) use ($model) {
-            return [
-                'customerable_type' => get_class($model),
-                'customerable_id' => $model->id
-            ];
+        $mapper = $this->mapper($model);
+
+        return $this->state(function() use ($mapper) {
+            return $mapper;
         });
+    }
+
+    private function mapper(Model $model): array
+    {
+        return [
+            'customerable_type' => get_class($model),
+            'customerable_id' => $model->id
+        ];
     }
 }

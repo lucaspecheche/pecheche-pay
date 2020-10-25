@@ -45,7 +45,7 @@ class TransactionProvider extends ServiceProvider
     public function registerApiRoutes(): void
     {
         $this->app->router->group(['prefix' => 'v1/transactions'], static function ($router) {
-            require_once __DIR__ . '/../Routes/api.php';
+            require __DIR__ . '/../Routes/api.php';
         });
     }
 

@@ -5,9 +5,7 @@ namespace Transactions\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Request;
 use Illuminate\Http\Response;
-use Transactions\Models\Transaction;
 use Transactions\Transfer\Contracts\TransferServiceInterface;
-use Transactions\Transfer\Events\TransferCompleted;
 use Transactions\Transfer\Helpers\TransferMapper;
 
 class TransactionController extends Controller
