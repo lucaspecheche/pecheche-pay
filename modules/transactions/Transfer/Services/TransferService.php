@@ -45,7 +45,7 @@ class TransferService implements ServiceInterface, TransactionInterface
         $transaction = $this->transactionRepository->create($data->mapToTransaction());
 
         $this->useAsyncTransaction()
-            ? dispatch(new TransferJob($transaction))
+            ? TransferJob::dispatch($transaction)
             : TransferJob::dispatchNow($transaction);
 
         return $transaction;

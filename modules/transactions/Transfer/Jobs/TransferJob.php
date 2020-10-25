@@ -11,7 +11,7 @@ class TransferJob extends Job
 {
     private $transaction;
 
-    public $tries = 2;
+    public $tries = 3;
     public $queue = Types::TRANSFER;
 
     public function __construct(Transaction $transaction)
