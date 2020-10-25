@@ -28,7 +28,7 @@ class TransferFeatureRulesTest extends \TestCase
     }
 
     /** @test */
-    public function should_return_422_when_value_is_null(): void
+    public function should_return_422_when_value_required(): void
     {
         $payer = Customer::factory()->create();
         $payee = Customer::factory()->create();
@@ -36,6 +36,31 @@ class TransferFeatureRulesTest extends \TestCase
         $this->assertRules([
             'payer' => $payer->id,
             'payee' => $payee->id
+        ]);
+    }
+
+    /** @test */
+    public function should_return_422_when_payer_is_merchant(): void
+    {
+        $payer = Customer::factory()->withMerchant()->create();
+        $payee = Customer::factory()->create();
+
+        $this->assertRules([
+            'value' => 100,
+            'payer' => $payer->id,
+            'payee' => $payee->id
+        ]);
+    }
+
+    /** @test */
+    public function should_return_422_when_payee_not_exists(): void
+    {
+        $payer = Customer::factory()->create();
+
+        $this->assertRules([
+            'value' => 100,
+            'payer' => $payer->id,
+            'payee' => 9999999
         ]);
     }
 
