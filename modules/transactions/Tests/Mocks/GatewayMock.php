@@ -13,8 +13,8 @@ class GatewayMock
     public static function make(): PendingRequest
     {
         return Http::fake([
-            '*' => self::default(),
             GatewayRoutes::authorizeTransfer('*') => self::authorizeTransfer(),
+            '*' => self::default()
         ])->acceptJson();
     }
 

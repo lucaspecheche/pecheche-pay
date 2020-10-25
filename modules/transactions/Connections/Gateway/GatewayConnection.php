@@ -18,7 +18,7 @@ class GatewayConnection
 
     public function transferIsAuthorized(Transaction $transaction): bool
     {
-        $response = $this->gatewayClient->get(GatewayRoutes::authorizeTransfer(), $transaction->toArray());
+        $response = $this->gatewayClient->post(GatewayRoutes::authorizeTransfer(), $transaction->toArray());
         return $response->successful() && $response->json('message') === self::AUTHORIZATION_KEY;
 
     }

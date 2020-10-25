@@ -121,7 +121,6 @@ class TransferService implements ServiceInterface, TransactionInterface
         throw_unless($isAuthorized, TransferExceptions::unauthorized());
 
         return $this;
-
     }
 
     protected function success(): TransferService

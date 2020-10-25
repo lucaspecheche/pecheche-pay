@@ -3,6 +3,7 @@
 return [
     'transfer' => [
         'created' => 'Transferência Criada Com Sucesso.',
+        'completed' => 'Transferência Finalizada Com Sucesso.',
         'payer' => [
             'completed' => 'Você transferiu :value para :name.'
         ],

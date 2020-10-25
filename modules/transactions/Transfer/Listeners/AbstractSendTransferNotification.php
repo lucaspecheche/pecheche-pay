@@ -9,9 +9,10 @@ use Transactions\Transfer\Events\TransferCompleted;
 
 abstract class AbstractSendTransferNotification implements ShouldQueue
 {
+    public const QUEUE = 'NOTIFICATION';
     private $informConnection;
 
-    public $queue = 'NOTIFICATION';
+    public $queue = self::QUEUE;
     public $tries = 3;
 
     public function __construct(InformConnection $informConnection)

@@ -50,7 +50,7 @@ class TransferMapper
             'value'    => $this->value,
             'payer_id' => $this->getPayer()->id,
             'payee_id' => $this->getPayee()->id,
-            'status'   => Status::PENDING_SUBMISSION,
+            'status'   => Status::CREATED,
             'type'     => Types::TRANSFER
         ];
     }

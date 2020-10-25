@@ -13,8 +13,8 @@ class InformMock
     public static function make(): PendingRequest
     {
         return Http::fake([
-            '*' => self::default(),
             InformRoutes::sendMsg('*') => self::sendMsg(),
+            '*' => self::default()
         ])->acceptJson();
     }
 
