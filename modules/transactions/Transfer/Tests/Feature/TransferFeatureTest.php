@@ -17,23 +17,46 @@ use Wallets\Models\Wallet;
 class TransferFeatureTest extends \TestCase
 {
     /** @test */
-    public function should_dispatch_async_transaction()
+    public function should_dispatch_async_transaction(): void
     {
         Queue::fake();
         config(['transaction.async' => 1]);
 
-        $payer = Wallet::factory()->create([
+        $payerWallet = Wallet::factory()->create([
             'balance' => 100.00
         ]);
 
-        $payee = Wallet::factory()->create();
+        $payeeWallet = Wallet::factory()->create();
 
         $this->post(TransferRoutes::V1, [
             'value' => 50.00,
-            'payer' => $payer->id,
-            'payee' => $payee->id
+            'payer' => $payerWallet->customer->id,
+            'payee' => $payeeWallet->customer->id
         ]);
 
         Queue::assertPushedOn(Types::TRANSFER, TransferJob::class);
+    }
+
+    /** @test */
+    public function should_dispatch_sync_transaction()
+    {
+//        Queue::fake();
+        config(['transaction.async' => 0]);
+
+        $payerWallet = Wallet::factory()->create([
+            'balance' => 100.00
+        ]);
+
+        $payeeWallet = Wallet::factory()->create();
+
+        $this->post(TransferRoutes::V1, [
+            'value' => 50.00,
+            'payer' => $payerWallet->customer->id,
+            'payee' => $payeeWallet->customer->id
+        ]);
+
+        dd($this->response->json());
+
+//        Queue::assertPushedOn(Types::TRANSFER, TransferJob::class);
     }
 }

@@ -10,7 +10,7 @@ use Wallets\Database\Factories\WalletFactory;
 
 /**
  * @property float balance
- * @property float processing_balance
+ * @property Customer customer
  */
 class Wallet extends Model
 {

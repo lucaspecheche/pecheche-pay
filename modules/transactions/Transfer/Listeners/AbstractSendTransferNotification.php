@@ -12,7 +12,7 @@ abstract class AbstractSendTransferNotification implements ShouldQueue
     private $informConnection;
 
     public $queue = 'NOTIFICATION';
-    public $tries = 1;
+    public $tries = 3;
 
     public function __construct(InformConnection $informConnection)
     {
