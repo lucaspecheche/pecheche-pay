@@ -4,6 +4,7 @@ namespace Transactions\Transfer\Services;
 
 use Customers\Contracts\CustomerRepositoryInterface;
 use Customers\Models\Customer;
+use Transactions\Connections\Gateway\GatewayConnection;
 use Transactions\Contracts\TransactionRepositoryInterface;
 use Transactions\Contracts\TransactionServiceInterface as TransactionInterface;
 use Transactions\Models\Transaction;
@@ -18,14 +19,17 @@ class TransferService implements ServiceInterface, TransactionInterface
     protected $walletService;
     protected $customerRepository;
     protected $transactionRepository;
+    protected $gatewayConnection;
 
     public function __construct(
+        GatewayConnection $gatewayConnection,
         WalletServiceInterface $walletService,
         CustomerRepositoryInterface $customerRepository,
         TransactionRepositoryInterface $transactionRepository
     ){
-        $this->walletService         = $walletService;
-        $this->customerRepository    = $customerRepository;
+        $this->walletService = $walletService;
+        $this->gatewayConnection = $gatewayConnection;
+        $this->customerRepository = $customerRepository;
         $this->transactionRepository = $transactionRepository;
     }
 
@@ -43,6 +47,7 @@ class TransferService implements ServiceInterface, TransactionInterface
     public function submit(Transaction $transaction)
     {
         $this->debit($transaction);
+        $this->authorize($transaction);
 
         dd($transaction);
     }
@@ -55,6 +60,12 @@ class TransferService implements ServiceInterface, TransactionInterface
         $this->hasBalanceOrBreak($payer, $value);
 
         $this->walletService->debit($payer, $value);
+    }
+
+    private function authorize(Transaction $transaction): void
+    {
+        $isAuthorized = $this->gatewayConnection->transferIsAuthorized($transaction);
+        throw_unless($isAuthorized, TransferExceptions::unauthorized());
     }
 
     private function hasBalanceOrBreak(Customer $customer, float $value): void

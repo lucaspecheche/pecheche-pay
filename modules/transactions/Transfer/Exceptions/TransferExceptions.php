@@ -14,4 +14,12 @@ class TransferExceptions extends BuildException
             ->setMessage(trans('transaction::exceptions.insufficientFunds'))
             ->setHttpCode(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
+
+    public static function unauthorized(): TransferExceptions
+    {
+        return (new self)
+            ->setShortMessage(__FUNCTION__)
+            ->setMessage(trans('transaction::exceptions.unauthorized'))
+            ->setHttpCode(Response::HTTP_UNPROCESSABLE_ENTITY);
+    }
 }

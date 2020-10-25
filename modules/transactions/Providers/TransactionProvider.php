@@ -2,7 +2,9 @@
 
 namespace Transactions\Providers;
 
+use GuzzleHttp\Client;
 use Illuminate\Support\ServiceProvider;
+use Transactions\Connections\Gateway\GatewayClient;
 use Transactions\Contracts\TransactionRepositoryInterface;
 use Transactions\Repositories\TransactionRepository;
 use Transactions\Transfer\Contracts\TransferServiceInterface;
@@ -12,6 +14,7 @@ class TransactionProvider extends ServiceProvider
 {
     public function register(): void
     {
+        $this->registerGatewayClient();
         $this->app->bind(TransferServiceInterface::class, TransferService::class);
         $this->app->bind(TransactionRepositoryInterface::class, TransactionRepository::class);
     }
@@ -37,6 +40,15 @@ class TransactionProvider extends ServiceProvider
     {
         $this->app->router->group(['prefix' => 'v1/transactions'], static function ($router) {
             require_once __DIR__ . '/../Routes/api.php';
+        });
+    }
+
+    private function registerGatewayClient(): void
+    {
+        $this->app->singleton(GatewayClient::class, static function() {
+            $guzzleClient = new Client(['base_uri' => env('GATEWAY_API_URI')]);
+
+            return new GatewayClient($guzzleClient);
         });
     }
 }

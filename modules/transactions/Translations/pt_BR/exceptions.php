@@ -1,5 +1,6 @@
 <?php
 
 return [
-    'insufficientFunds' => 'Saldo Insuficiente.'
+    'insufficientFunds' => 'Saldo Insuficiente.',
+    'unauthorized' => 'Transação não autorizada pelo gateway.'
 ];
