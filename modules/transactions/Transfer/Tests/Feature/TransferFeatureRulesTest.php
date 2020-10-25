@@ -6,13 +6,13 @@ use App\Http\Controllers\Controller;
 use Customers\Models\Customer;
 use Illuminate\Http\Response;
 use Illuminate\Testing\TestResponse;
+use Transactions\Transfer\Tests\Helper\TransferRoutes;
 
 /**
  * @property TestResponse $response
  */
 class TransferFeatureRulesTest extends \TestCase
 {
-    private const TRANSFER_ROUTER = 'v1/transactions/transfer';
 
     /** @test */
     public function should_return_422_when_value_is_not_numeric(): void
@@ -66,7 +66,7 @@ class TransferFeatureRulesTest extends \TestCase
 
     private function assertRules(array $attributes): void
     {
-        $this->post(self::TRANSFER_ROUTER, $attributes);
+        $this->post(TransferRoutes::V1, $attributes);
 
         $this->response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
 

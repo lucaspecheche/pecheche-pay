@@ -14,6 +14,7 @@ class WalletFactory extends Factory
     {
         return [
             'balance' => $this->faker->randomFloat(2, 0, 1000),
+            'customer_id' => Customer::factory()->withUser()->create()
         ];
     }
 

@@ -132,7 +132,7 @@ class TransferService implements ServiceInterface, TransactionInterface
         return $this;
     }
 
-    private function hasAvailableBalance(Customer $customer, float $value): TransferService
+    protected function hasAvailableBalance(Customer $customer, float $value): TransferService
     {
         $hasBalance = $this->walletService->hasAvailableBalance($customer, $value);
         throw_unless($hasBalance, TransferExceptions::insufficientFunds());
@@ -142,6 +142,6 @@ class TransferService implements ServiceInterface, TransactionInterface
 
     private function useAsyncTransaction(): bool
     {
-        return env('ASYNC_TRANSACTION', false);
+        return config('transaction.async');
     }
 }

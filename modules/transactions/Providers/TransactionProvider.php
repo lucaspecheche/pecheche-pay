@@ -27,9 +27,15 @@ class TransactionProvider extends ServiceProvider
 
     public function boot(): void
     {
+        $this->registerConfig();
         $this->registerApiRoutes();
         $this->registerMigrations();
         $this->registerTranslations();
+    }
+
+    protected function registerConfig(): void
+    {
+        $this->mergeConfigFrom(__DIR__.'/../Configs/transaction.php', 'transaction');
     }
 
     public function registerTranslations(): void
@@ -49,7 +55,7 @@ class TransactionProvider extends ServiceProvider
         });
     }
 
-    private function bindInterfaces()
+    private function bindInterfaces(): void
     {
         $this->app->bind(TransferServiceInterface::class, TransferService::class);
         $this->app->bind(TransactionRepositoryInterface::class, TransactionRepository::class);
