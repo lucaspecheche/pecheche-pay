@@ -6,12 +6,14 @@ use Customers\Models\Customer;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Transactions\Constants\Status;
 use Transactions\Database\Factories\TransactionFactory;
 
 /**
  * @property Customer payer
  * @property Customer payee
  * @property float value
+ * @property string status
  */
 class Transaction extends Model
 {
@@ -41,6 +43,16 @@ class Transaction extends Model
     public function payee(): BelongsTo
     {
         return $this->belongsTo(Customer::class, 'payee_id', 'id');
+    }
+
+    public function updateStatus(string $status): bool
+    {
+        return $this->update(['status' => $status], ['touch' => true]);
+    }
+
+    public function isDebited(): bool
+    {
+        return $this->status === Status::DEBITED;
     }
 
     protected static function newFactory(): TransactionFactory

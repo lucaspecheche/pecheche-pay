@@ -5,6 +5,7 @@ namespace Transactions\Transfer\Services;
 use Customers\Contracts\CustomerRepositoryInterface;
 use Customers\Models\Customer;
 use Transactions\Connections\Gateway\GatewayConnection;
+use Transactions\Constants\Status;
 use Transactions\Contracts\TransactionRepositoryInterface;
 use Transactions\Contracts\TransactionServiceInterface as TransactionInterface;
 use Transactions\Models\Transaction;
@@ -16,6 +17,9 @@ use Wallets\Contracts\WalletServiceInterface;
 
 class TransferService implements ServiceInterface, TransactionInterface
 {
+    /** @var Transaction */
+    protected $transaction;
+
     protected $walletService;
     protected $customerRepository;
     protected $transactionRepository;
@@ -35,42 +39,99 @@ class TransferService implements ServiceInterface, TransactionInterface
 
     public function new(TransferMapper $data): Transaction
     {
-        $this->hasBalanceOrBreak($data->getPayer(), $data->getValue());
+        $this->hasBalance($data->getPayer(), $data->getValue());
 
-        $transaction = Transaction::first();//$this->transactionRepository->create($data->mapToTransaction());
+        $transaction = $this->transactionRepository->create($data->mapToTransaction());
 
         TransferJob::dispatchNow($transaction);
 
         return $transaction;
     }
 
-    public function submit(Transaction $transaction)
+    public function submit(Transaction $transaction): void
     {
-        $this->debit($transaction);
-        $this->authorize($transaction);
+        $this->transaction = $transaction;
 
-        dd($transaction);
+        try {
+            $this->validate()
+                ->authorize()
+                ->debit()
+                ->credit()
+                ->success();
+        } catch (\Exception $exception) {
+            $this->refund();
+            throw $exception;
+        }
     }
 
-    private function debit(Transaction $transaction): void
+    private function debit(): TransferService
     {
-        $payer = $transaction->payer;
-        $value = $transaction->value;
+        $this->walletService->debit(
+            $this->transaction->payer,
+            $this->transaction->value
+        );
 
-        $this->hasBalanceOrBreak($payer, $value);
+        $this->transaction->updateStatus(Status::DEBITED);
 
-        $this->walletService->debit($payer, $value);
+        return $this;
     }
 
-    private function authorize(Transaction $transaction): void
+    private function credit(): TransferService
     {
-        $isAuthorized = $this->gatewayConnection->transferIsAuthorized($transaction);
+        $this->walletService->credit(
+            $this->transaction->payee,
+            $this->transaction->value
+        );
+
+        $this->transaction->updateStatus(Status::CREDITED);
+
+        return $this;
+    }
+
+    private function refund(): TransferService
+    {
+        if ($this->transaction->isDebited()) {
+            $this->walletService->credit(
+                $this->transaction->payer,
+                $this->transaction->value
+            );
+
+            $this->transaction->updateStatus(Status::REFUNDED);
+        }
+
+        return $this;
+    }
+
+    private function validate(): TransferService
+    {
+        $this->hasBalance(
+            $this->transaction->payer,
+            $this->transaction->value
+        );
+
+        return $this;
+    }
+
+    private function authorize(): TransferService
+    {
+        $isAuthorized = $this->gatewayConnection->transferIsAuthorized($this->transaction);
         throw_unless($isAuthorized, TransferExceptions::unauthorized());
+
+        return $this;
+
     }
 
-    private function hasBalanceOrBreak(Customer $customer, float $value): void
+    protected function success(): TransferService
+    {
+        $this->transaction->updateStatus(Status::COMPLETED);
+        return $this;
+    }
+
+    private function hasBalance(Customer $customer, float $value): TransferService
     {
         $hasBalance = $this->walletService->hasAvailableBalance($customer, $value);
         throw_unless($hasBalance, TransferExceptions::insufficientFunds());
+
+        return $this;
     }
 }

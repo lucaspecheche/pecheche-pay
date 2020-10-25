@@ -15,10 +15,18 @@ class WalletService implements WalletServiceInterface
 
     public function debit(Customer $customer, float $value): void
     {
-        $currentBalance = $customer->wallet->getBalance();
-        $newBalance     = $currentBalance - $value;
+        $newBalance = $customer->wallet->getBalance() - $value;
+        throw_unless($this->updateBalance($customer, $newBalance), WalletExceptions::debitError());
+    }
 
-        $result = $customer->wallet->update(['balance' => $newBalance], ['touch' => true]);
-        throw_unless($result, WalletExceptions::debitError());
+    public function credit(Customer $customer, float $value): void
+    {
+        $newBalance = $customer->wallet->getBalance() + $value;
+        throw_unless($this->updateBalance($customer, $newBalance), WalletExceptions::creditError());
+    }
+
+    private function updateBalance(Customer $customer, $newBalance): bool
+    {
+        return $customer->wallet->update(['balance' => $newBalance], ['touch' => true]);
     }
 }

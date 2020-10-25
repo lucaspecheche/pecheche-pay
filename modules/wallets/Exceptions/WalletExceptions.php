@@ -13,4 +13,11 @@ class WalletExceptions extends BuildException
             ->setMessage(trans('wallet::exceptions.debitError'))
             ->setHttpCode(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
+
+    public static function creditError(): WalletExceptions
+    {
+        return (new static())
+            ->setMessage(trans('wallet::exceptions.creditError'))
+            ->setHttpCode(Response::HTTP_UNPROCESSABLE_ENTITY);
+    }
 }

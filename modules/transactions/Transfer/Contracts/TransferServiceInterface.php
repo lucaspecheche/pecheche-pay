@@ -9,5 +9,5 @@ interface TransferServiceInterface
 {
     public function new(TransferMapper $data): Transaction;
 
-    public function submit(Transaction $transaction);
+    public function submit(Transaction $transaction): void;
 }

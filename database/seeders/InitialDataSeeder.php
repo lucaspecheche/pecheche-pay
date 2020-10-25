@@ -9,7 +9,7 @@ class InitialDataSeeder extends Seeder
 {
     public function run(): void
     {
-        Wallet::factory()->times(5)->withUser()->create();
-        Wallet::factory()->times(5)->withMerchant()->create();
+        Wallet::factory()->times(2)->withUser()->create();
+        Wallet::factory()->times(2)->withMerchant()->create();
     }
 }
