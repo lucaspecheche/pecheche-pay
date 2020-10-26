@@ -17,9 +17,13 @@ ASYNC_TRANSACTION=true
 ```
 - Por enquanto, para executar as transações assíncronas é necessário rodar o seguinte comando:
 ```
-docker exec -it pay-app "php artisan queue:work --queue=TRANSFER,NOTIFICATION"
+docker exec -it pay-app php artisan queue:work --queue=TRANSFER
 ``` 
-
+#### Notificações de Transações:
+- Por enquanto, para enviar as notificações é necessário executar o seguinte commando:
+```
+docker exec -it pay-app php artisan queue:work --queue=NOTIFICATION
+```
 ## Documentação
 - Informações sobre a utilização dos recursos da API você pode encontrar [aqui](https://documenter.getpostman.com/view/6755803/TVYGax9r).
 - `https://documenter.getpostman.com/view/6755803/TVYGax9r`
