@@ -24,6 +24,13 @@ docker exec -it pay-app php artisan queue:work --queue=TRANSFER
 ```
 docker exec -it pay-app php artisan queue:work --queue=NOTIFICATION
 ```
+
+#### Teste Rápido
+- É possivel criar *mocks* para as requisições externas (Gateway, Inform), para isso basta definir o `env` como `testing`
+```
+APP_ENV=testing
+```
+
 ## Documentação
 - Informações sobre a utilização dos recursos da API você pode encontrar [aqui](https://documenter.getpostman.com/view/6755803/TVYGax9r).
 - `https://documenter.getpostman.com/view/6755803/TVYGax9r`
