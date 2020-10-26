@@ -25,7 +25,7 @@ class TransactionFactory extends Factory
 
     public function withPayer(Customer $payer): TransactionFactory
     {
-        return $this->state(function() use($payer) {
+        return $this->state(function () use ($payer) {
             return [
                 'payer_id' => $payer->id
             ];
@@ -34,7 +34,7 @@ class TransactionFactory extends Factory
 
     public function withPayee(Customer $payee): TransactionFactory
     {
-        return $this->state(function() use ($payee){
+        return $this->state(function () use ($payee) {
             return [
                 'payee_id' => $payee->id
             ];

@@ -11,13 +11,13 @@ class CustomerIdentifier extends Rule
     {
         $customer = $this->getCustomerByValue($value);
 
-        if (empty($models) || !$customer) {
+        if (empty($models) || ! $customer) {
             return (bool) $customer;
         }
 
         $model = $customer->getType();
 
-        if($model) {
+        if ($model) {
             return class_exists($model)
                 ? $this->isSameModel($model, $models)
                 : false;

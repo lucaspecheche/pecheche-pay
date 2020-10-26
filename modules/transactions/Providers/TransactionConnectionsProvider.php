@@ -22,7 +22,7 @@ class TransactionConnectionsProvider extends ServiceProvider
 
     private function registerGatewayClient(): void
     {
-        $this->app->singleton(GatewayConnection::class, static function() {
+        $this->app->singleton(GatewayConnection::class, static function () {
             $httpClient = self::isTesting()
                 ? GatewayMock::make()
                 : Http::baseUrl(config('transaction.gateway.baseUri'));
@@ -33,7 +33,7 @@ class TransactionConnectionsProvider extends ServiceProvider
 
     private function registerInformClient(): void
     {
-        $this->app->singleton(InformConnection::class, static function() {
+        $this->app->singleton(InformConnection::class, static function () {
             $httpClient = self::isTesting()
                 ? InformMock::make()
                 : Http::baseUrl(config('transaction.inform.baseUri'));

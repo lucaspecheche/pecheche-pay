@@ -10,5 +10,4 @@ class Request extends \Illuminate\Http\Request
     {
         return DataObject::new($this->toArray());
     }
-
 }

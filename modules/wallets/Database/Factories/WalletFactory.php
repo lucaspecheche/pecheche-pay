@@ -20,7 +20,7 @@ class WalletFactory extends Factory
 
     public function withUser(): WalletFactory
     {
-        return $this->state(function() {
+        return $this->state(function () {
             return [
                 'customer_id' => Customer::factory()->withUser()->create()
             ];
@@ -29,7 +29,7 @@ class WalletFactory extends Factory
 
     public function withMerchant(): WalletFactory
     {
-        return $this->state(function() {
+        return $this->state(function () {
             return [
                 'customer_id' => Customer::factory()->withMerchant()->create()
             ];

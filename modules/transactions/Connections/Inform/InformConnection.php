@@ -18,7 +18,7 @@ class InformConnection
 
     public function send(string $message)
     {
-        $response = $this->informClient->post(InformRoutes::sendMsg(), ['message' => $message]);
+        $response  = $this->informClient->post(InformRoutes::sendMsg(), ['message' => $message]);
         $isSuccess = $response->successful() && $response->json('message') === self::SUCCESS_SEND_MSG_STATUS;
 
         throw_unless($isSuccess, ConnectionExceptions::errorSendMsg($response->body()));
