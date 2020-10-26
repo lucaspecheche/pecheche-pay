@@ -7,7 +7,7 @@ on:
     branches:
       - main
 jobs:
-  lint-and-test:
+  validations:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -20,6 +20,6 @@ jobs:
       - name: Check mess via PHP Mess Detector
         run: vendor/bin/phpmd modules text phpmd-ruleset.xml && vendor/bin/phpmd app text phpmd-ruleset.xml
       - name: Check code style via PHP Code Sniffer
-        run: vendor/bin/phpcs app --standard=phpcs-ruleset.xml
+        run: phpcs --standard=phpcs-ruleset.xml -n -p app modules
       - name: Execute tests (Unit and Feature tests) via PHPUnit
         run: vendor/bin/phpunit
