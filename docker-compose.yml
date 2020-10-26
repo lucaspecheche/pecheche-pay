@@ -1,24 +1,24 @@
 version: '3'
 services:
-  pay-app:
+  app:
     build:
       context: docker/php
       dockerfile: Dockerfile
-    container_name: pay-php
+    container_name: pay-app
     entrypoint:
       - php-fpm
     volumes:
-      - ./:/pay-api
+      - ./:/var/www/pay-api
     networks:
       - pay-network
 
-  pay-nginx:
+  web-server:
     image: nginx:alpine
     container_name: pay-nginx
     depends_on:
-      - pay-app
+      - app
     volumes:
-      - ./:/pay-api
+      - ./:/var/www/pay-api
       - ./docker/nginx/:/etc/nginx/conf.d/
     ports:
       - "8000:8000"
