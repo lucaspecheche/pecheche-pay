@@ -31,6 +31,7 @@ class BuildException extends Exception
 
     public function setShortMessage(string $shortMessage): BuildException
     {
+        $this->code = $shortMessage;
         $this->shortMessage = $shortMessage;
         return $this;
     }

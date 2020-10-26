@@ -94,7 +94,7 @@ class TransferService implements ServiceInterface, TransactionInterface
     private function refund(): TransferService
     {
         if ($this->transaction->isDebited()) {
-            $this->walletService->credit(
+            $this->walletService->refund(
                 $this->transaction->payer,
                 $this->transaction->value
             );

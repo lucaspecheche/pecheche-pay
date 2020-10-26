@@ -5,6 +5,8 @@ namespace Transactions\Database\Factories;
 
 use Customers\Models\Customer;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Transactions\Constants\Status;
+use Transactions\Constants\Types;
 use Transactions\Models\Transaction;
 use Wallets\Database\Factories\WalletFactory;
 
@@ -16,23 +18,25 @@ class TransactionFactory extends Factory
     {
         return [
             'value' => $this->faker->randomFloat(2, 0, 1000),
+            'type' => Types::TRANSFER,
+            'status' => Status::CREATED
         ];
     }
 
-    public function withUser(): TransactionFactory
+    public function withPayer(Customer $payer): TransactionFactory
     {
-        return $this->state(function() {
+        return $this->state(function() use($payer) {
             return [
-                'customer_id' => Customer::factory()->withUser()->create()
+                'payer_id' => $payer->id
             ];
         });
     }
 
-    public function withMerchant(): TransactionFactory
+    public function withPayee(Customer $payee): TransactionFactory
     {
-        return $this->state(function() {
+        return $this->state(function() use ($payee){
             return [
-                'customer_id' => Customer::factory()->withMerchant()->create()
+                'payee_id' => $payee->id
             ];
         });
     }

@@ -25,6 +25,11 @@ class WalletService implements WalletServiceInterface
         throw_unless($this->updateBalance($customer, $newBalance), WalletExceptions::creditError());
     }
 
+    public function refund(Customer $customer, float $value): void
+    {
+        $this->credit($customer, $value);
+    }
+
     private function updateBalance(Customer $customer, $newBalance): bool
     {
         return $customer->wallet->update(['balance' => $newBalance], ['touch' => true]);
