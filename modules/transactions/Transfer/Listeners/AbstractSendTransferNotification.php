@@ -32,7 +32,7 @@ abstract class AbstractSendTransferNotification implements ShouldQueue
 
     protected function formatValue(float $value): string
     {
-        $fmt = new NumberFormatter( 'pt_BR', NumberFormatter::CURRENCY );
+        $fmt = new NumberFormatter('pt_BR', NumberFormatter::CURRENCY);
         return $fmt->formatCurrency($value, "BRL");
     }
 }
