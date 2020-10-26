@@ -16,11 +16,13 @@ class InformConnection
         $this->informClient = $informClient;
     }
 
-    public function send(string $message)
+    public function send(string $message): bool
     {
         $response  = $this->informClient->post(InformRoutes::sendMsg(), ['message' => $message]);
         $isSuccess = $response->successful() && $response->json('message') === self::SUCCESS_SEND_MSG_STATUS;
 
         throw_unless($isSuccess, ConnectionExceptions::errorSendMsg($response->body()));
+
+        return true;
     }
 }
