@@ -25,11 +25,11 @@ class TransferFeatureTest extends \TestCase
         Event::fake();
         config(['transaction.async' => 1]);
 
-        $payerWallet = Wallet::factory()->create([
+        $payerWallet = Wallet::factory()->withUser()->create([
             'balance' => 100.00
         ]);
 
-        $payeeWallet = Wallet::factory()->create();
+        $payeeWallet = Wallet::factory()->withUser()->create();
 
         $this->post(TransferRoutes::V1, [
             'value' => 50.00,
@@ -57,11 +57,11 @@ class TransferFeatureTest extends \TestCase
 
         config(['transaction.async' => 0]);
 
-        $payerWallet = Wallet::factory()->create([
+        $payerWallet = Wallet::factory()->withUser()->create([
             'balance' => 100.00
         ]);
 
-        $payeeWallet = Wallet::factory()->create();
+        $payeeWallet = Wallet::factory()->withUser()->create();
 
         $this->post(TransferRoutes::V1, [
             'value' => 50.00,
@@ -84,11 +84,11 @@ class TransferFeatureTest extends \TestCase
     /** @test */
     public function should_return_422_when_payer_not_has_available_balance(): void
     {
-        $payerWallet = Wallet::factory()->create([
+        $payerWallet = Wallet::factory()->withUser()->create([
             'balance' => 100.00
         ]);
 
-        $payeeWallet = Wallet::factory()->create();
+        $payeeWallet = Wallet::factory()->withUser()->create();
 
         $this->post(TransferRoutes::V1, [
             'value' => 200.00,

@@ -17,11 +17,11 @@ class TransferServiceTest extends \TestCase
     /** @test */
     public function should_transfer_correct_value(): void
     {
-        $payerWallet = Wallet::factory()->create([
+        $payerWallet = Wallet::factory()->withUser()->create([
             'balance' => $this->randMoney(200, 300)
         ]);
 
-        $payeeWallet = Wallet::factory()->create([
+        $payeeWallet = Wallet::factory()->withUser()->create([
             'balance' => $this->randMoney(0, 1000)
         ]);
 
@@ -43,11 +43,11 @@ class TransferServiceTest extends \TestCase
     /** @test **/
     public function should_throw_exception_when_balance_not_available(): void
     {
-        $payerWallet = Wallet::factory()->create([
+        $payerWallet = Wallet::factory()->withUser()->create([
             'balance' => 100.00
         ]);
 
-        $payeeWallet = Wallet::factory()->create();
+        $payeeWallet = Wallet::factory()->withUser()->create();
 
         $transaction = Transaction::factory()
             ->withPayer($payerWallet->customer)
@@ -142,11 +142,11 @@ class TransferServiceTest extends \TestCase
 
     private function buildTransaction(): Transaction
     {
-        $payerWallet = Wallet::factory()->create([
+        $payerWallet = Wallet::factory()->withUser()->create([
             'balance' => 100.00
         ]);
 
-        $payeeWallet = Wallet::factory()->create();
+        $payeeWallet = Wallet::factory()->withUser()->create();
 
         return Transaction::factory()
             ->withPayer($payerWallet->customer)
