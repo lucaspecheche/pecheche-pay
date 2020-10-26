@@ -22,8 +22,8 @@ class TransactionController extends Controller
     {
         $this->validate($request, [
             'value' => 'required|numeric',
-            'payer' => 'required|numeric|is_customer:users',
-            'payee' => 'required|numeric|is_customer'
+            'payer' => 'required|int|is_customer:users',
+            'payee' => 'required|int|is_customer'
         ]);
 
         $transaction = $this->transferService->new($data->setAll($request->all()));

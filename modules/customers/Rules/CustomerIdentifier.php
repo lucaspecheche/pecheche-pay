@@ -15,7 +15,9 @@ class CustomerIdentifier extends Rule
             return (bool) $customer;
         }
 
-        if($model = $customer->getType()) {
+        $model = $customer->getType();
+
+        if($model) {
             return class_exists($model)
                 ? $this->isSameModel($model, $models)
                 : false;
