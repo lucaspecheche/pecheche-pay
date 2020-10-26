@@ -32,6 +32,6 @@ abstract class AbstractSendTransferNotification implements ShouldQueue
     protected function formatValue(float $value): string
     {
         setlocale(LC_MONETARY, 'pt_BR.UTF-8');
-        return money_format('%.2n', $value);
+        return @money_format('%.2n', $value);
     }
 }
