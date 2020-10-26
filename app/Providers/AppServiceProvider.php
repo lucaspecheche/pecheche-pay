@@ -20,14 +20,13 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->initialDatabase();
-
     }
 
     private function initialDatabase(): void
     {
         $database = config('database.connections.sqlite.database');
 
-        if(!file_exists($database)) {
+        if (! file_exists($database)) {
             file_put_contents($database, '');
         }
     }
