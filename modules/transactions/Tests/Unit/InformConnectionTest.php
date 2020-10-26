@@ -14,7 +14,6 @@ class InformConnectionTest extends \TestCase
         self::assertTrue($this->inform()->send('Testing...'));
     }
 
-
     /** @test */
     public function should_throw_exception_when_send_message_error(): void
     {
