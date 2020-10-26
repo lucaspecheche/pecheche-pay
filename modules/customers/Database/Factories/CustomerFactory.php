@@ -14,7 +14,7 @@ class CustomerFactory extends Factory
 
     public function definition(): array
     {
-        return $this->mapper(User::factory()->create());
+        return [];
     }
 
     public function withUser(): CustomerFactory

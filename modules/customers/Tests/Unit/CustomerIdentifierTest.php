@@ -26,7 +26,7 @@ class CustomerIdentifierTest extends \TestCase
     /** @test */
     public function should_return_true_when_customer_id_exists_and_models_empty(): void
     {
-        $customerId = Customer::factory()->create()->id;
+        $customerId = Customer::factory()->withUser()->create()->id;
 
         $result = $this->customerIdentifier->validate(null, $customerId, []);
         self::assertTrue($result);
