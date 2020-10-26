@@ -1,0 +1,30 @@
+version: '3'
+services:
+  php:
+    build:
+      context: docker/php
+      dockerfile: Dockerfile
+    container_name: pay-php
+    entrypoint:
+      - php-fpm
+    volumes:
+      - ./:/pay-api
+    networks:
+      - pay-network
+
+  nginx:
+    image: nginx:alpine
+    container_name: pay-nginx
+    depends_on:
+      - php
+    volumes:
+      - ./:/pay-api
+      - ./docker/nginx/:/etc/nginx/conf.d/
+    ports:
+      - "8000:8000"
+    networks:
+      - pay-network
+
+networks:
+  pay-network:
+    driver: bridge
