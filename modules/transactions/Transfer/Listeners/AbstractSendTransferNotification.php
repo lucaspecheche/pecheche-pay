@@ -3,6 +3,7 @@
 namespace Transactions\Transfer\Listeners;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
+use NumberFormatter;
 use Transactions\Connections\Inform\InformConnection;
 use Transactions\Models\Transaction;
 use Transactions\Transfer\Events\TransferCompleted;
@@ -31,7 +32,7 @@ abstract class AbstractSendTransferNotification implements ShouldQueue
 
     protected function formatValue(float $value): string
     {
-        setlocale(LC_MONETARY, 'pt_BR.UTF-8');
-        return money_format('%.2n', $value);
+        $fmt = new NumberFormatter('pt_BR', NumberFormatter::CURRENCY);
+        return $fmt->formatCurrency($value, "BRL");
     }
 }

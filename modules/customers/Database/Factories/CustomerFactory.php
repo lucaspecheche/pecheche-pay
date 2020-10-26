@@ -31,7 +31,7 @@ class CustomerFactory extends Factory
     {
         $mapper = $this->mapper($model);
 
-        return $this->state(function() use ($mapper) {
+        return $this->state(function () use ($mapper) {
             return $mapper;
         });
     }

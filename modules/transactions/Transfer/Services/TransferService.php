@@ -31,10 +31,10 @@ class TransferService implements ServiceInterface, TransactionInterface
         WalletServiceInterface $walletService,
         CustomerRepositoryInterface $customerRepository,
         TransactionRepositoryInterface $transactionRepository
-    ){
-        $this->walletService = $walletService;
-        $this->gatewayConnection = $gatewayConnection;
-        $this->customerRepository = $customerRepository;
+    ) {
+        $this->walletService         = $walletService;
+        $this->gatewayConnection     = $gatewayConnection;
+        $this->customerRepository    = $customerRepository;
         $this->transactionRepository = $transactionRepository;
     }
 

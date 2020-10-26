@@ -36,7 +36,7 @@ class CustomerIdentifierTest extends \TestCase
     public function should_return_false_when_customer_is_not_contains_model_alloweds(): void
     {
         $customerId = Customer::factory()->withMerchant()->create()->id;
-        $result = $this->customerIdentifier->validate(null, $customerId, ['users']);
+        $result     = $this->customerIdentifier->validate(null, $customerId, ['users']);
 
         self::assertFalse($result);
     }
@@ -45,7 +45,7 @@ class CustomerIdentifierTest extends \TestCase
     public function should_return_false_when_customer_contains_model_alloweds(): void
     {
         $customerId = Customer::factory()->withMerchant()->create()->id;
-        $result = $this->customerIdentifier->validate(null, $customerId, ['merchants']);
+        $result     = $this->customerIdentifier->validate(null, $customerId, ['merchants']);
 
         self::assertTrue($result);
     }

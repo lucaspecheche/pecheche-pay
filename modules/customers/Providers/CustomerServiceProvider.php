@@ -29,7 +29,7 @@ class CustomerServiceProvider extends ServiceProvider
     {
         $this->app->validator->extend('is_customer', CustomerIdentifier::class);
 
-        $this->app->validator->replacer('is_customer', function($message, $attribute, $rule, $parameters) {
+        $this->app->validator->replacer('is_customer', function ($message, $attribute, $rule, $parameters) {
             return str_replace(':models', implode(', ', $parameters), $message);
         });
     }

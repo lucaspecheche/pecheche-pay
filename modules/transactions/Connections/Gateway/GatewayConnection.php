@@ -20,6 +20,5 @@ class GatewayConnection
     {
         $response = $this->gatewayClient->post(GatewayRoutes::authorizeTransfer(), $transaction->toArray());
         return $response->successful() && $response->json('message') === self::AUTHORIZATION_KEY;
-
     }
 }
