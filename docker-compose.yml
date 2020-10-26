@@ -1,6 +1,6 @@
 version: '3'
 services:
-  php:
+  pay-app:
     build:
       context: docker/php
       dockerfile: Dockerfile
@@ -12,11 +12,11 @@ services:
     networks:
       - pay-network
 
-  nginx:
+  pay-nginx:
     image: nginx:alpine
     container_name: pay-nginx
     depends_on:
-      - php
+      - pay-app
     volumes:
       - ./:/pay-api
       - ./docker/nginx/:/etc/nginx/conf.d/
