@@ -1,0 +1,25 @@
+name: CI
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Copy .env
+        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+      - name: Install Dependencies
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+      - name: Directory Permissions
+        run: chmod -R 777 storage
+      - name: Check mess via PHP Mess Detector
+        run: vendor/bin/phpmd modules text phpmd-ruleset.xml && vendor/bin/phpmd app text phpmd-ruleset.xml
+      - name: Check code style via PHP Code Sniffer
+        run: vendor/bin/phpcs app --standard=phpcs-ruleset.xml
+      - name: Execute tests (Unit and Feature tests) via PHPUnit
+        run: vendor/bin/phpunit
