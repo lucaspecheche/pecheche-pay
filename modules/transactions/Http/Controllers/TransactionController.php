@@ -5,9 +5,8 @@ namespace Transactions\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Request;
 use Illuminate\Http\Response;
-use Transactions\Models\Transaction;
+use Illuminate\Support\Str;
 use Transactions\Transfer\Contracts\TransferServiceInterface;
-use Transactions\Transfer\Events\TransferCompleted;
 use Transactions\Transfer\Helpers\TransferMapper;
 
 class TransactionController extends Controller
@@ -29,10 +28,12 @@ class TransactionController extends Controller
 
         $transaction = $this->transferService->new($data->setAll($request->all()));
 
-        return $this->response(
-            trans('transaction::messages.transfer.created'),
-            $transaction,
-            Response::HTTP_CREATED
-        );
+        $message = config('transaction.async')
+            ? trans('transaction::messages.transfer.created')
+            : trans('transaction::messages.transfer.completed');
+
+        $status = config('transaction.async') ? Response::HTTP_CREATED : Response::HTTP_OK;
+
+        return $this->response($message, $transaction, $status);
     }
 }

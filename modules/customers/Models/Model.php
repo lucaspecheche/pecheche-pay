@@ -8,6 +8,6 @@ class Model extends BaseModel
 {
     public function getName(): string
     {
-        return implode(' ', [$this->first_name, $this->last_name]);
+        return "{$this->first_name} {$this->last_name}";
     }
 }

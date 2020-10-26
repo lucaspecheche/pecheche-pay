@@ -2,6 +2,7 @@
 
 namespace Transactions\Connections\Gateway;
 
+use Illuminate\Http\Client\PendingRequest;
 use Transactions\Models\Transaction;
 
 class GatewayConnection
@@ -10,7 +11,7 @@ class GatewayConnection
 
     private const AUTHORIZATION_KEY = 'Autorizado';
 
-    public function __construct(GatewayClientInterface $gatewayClient)
+    public function __construct(PendingRequest $gatewayClient)
     {
         $this->gatewayClient = $gatewayClient;
     }
@@ -18,7 +19,7 @@ class GatewayConnection
     public function transferIsAuthorized(Transaction $transaction): bool
     {
         $response = $this->gatewayClient->post(GatewayRoutes::authorizeTransfer(), $transaction->toArray());
-        return $response->isSuccess() && $response->get('message') === self::AUTHORIZATION_KEY;
+        return $response->successful() && $response->json('message') === self::AUTHORIZATION_KEY;
 
     }
 }

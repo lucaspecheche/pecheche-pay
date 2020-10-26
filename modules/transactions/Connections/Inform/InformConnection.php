@@ -2,6 +2,7 @@
 
 namespace Transactions\Connections\Inform;
 
+use Illuminate\Http\Client\PendingRequest;
 use Transactions\Exceptions\ConnectionExceptions;
 
 class InformConnection
@@ -10,7 +11,7 @@ class InformConnection
 
     private const SUCCESS_SEND_MSG_STATUS = 'Enviado';
 
-    public function __construct(InformClientInterface $informClient)
+    public function __construct(PendingRequest $informClient)
     {
         $this->informClient = $informClient;
     }
@@ -18,8 +19,8 @@ class InformConnection
     public function send(string $message)
     {
         $response = $this->informClient->post(InformRoutes::sendMsg(), ['message' => $message]);
-        $isSuccess = $response->isSuccess() && $response->get('message') === self::SUCCESS_SEND_MSG_STATUS;
+        $isSuccess = $response->successful() && $response->json('message') === self::SUCCESS_SEND_MSG_STATUS;
 
-        throw_unless($isSuccess, ConnectionExceptions::errorSendMsg($response->getContent()));
+        throw_unless($isSuccess, ConnectionExceptions::errorSendMsg($response->body()));
     }
 }

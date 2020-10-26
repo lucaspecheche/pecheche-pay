@@ -9,6 +9,8 @@ use Laravel\Lumen\Routing\Controller as BaseController;
 
 class Controller extends BaseController
 {
+    public const INVALID_DATA = 'invalidData';
+
     public static function getActionPath(string $action): string
     {
         $callClass = static::class;
@@ -27,7 +29,7 @@ class Controller extends BaseController
     protected function throwValidationException(HttpRequest $request, $validator): void
     {
         $error =  [
-            'shortMessage'       => 'invalidData',
+            'shortMessage'       => self::INVALID_DATA,
             'message'            => trans('validation.invalidData'),
             'description'        => [],
         ];

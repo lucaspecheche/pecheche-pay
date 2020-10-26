@@ -2,14 +2,11 @@
 
 namespace Transactions\Transfer\Events;
 
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Queue\SerializesModels;
+use App\Events\Event;
 use Transactions\Models\Transaction;
 
-class TransferCompleted
+class TransferCompleted extends Event
 {
-    use InteractsWithSockets, SerializesModels;
-
     private $transaction;
 
     public function __construct(Transaction $transaction)
